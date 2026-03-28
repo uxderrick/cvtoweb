@@ -15,33 +15,34 @@ export function middleware(request: NextRequest) {
   // Detection flags
   const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
   const isAppDomain = hostname === appDomain;
-  const isVercelSystemDomain = hostname.endsWith('.vercel.app') || hostname.endsWith('.vercel.dev');
+  const isVercelDomain = hostname.includes('vercel.app') || hostname.includes('vercel.dev');
 
-  console.log(`Middleware Debug: hostname=${hostname}, appDomain=${appDomain}, isAppDomain=${isAppDomain}, isVercelSystemDomain=${isVercelSystemDomain}`);
+  console.log(`[Middleware] Host: ${hostname} | AppDomain: ${appDomain} | isApp: ${isAppDomain} | isVercel: ${isVercelDomain}`);
 
-  if (isLocalhost || isAppDomain || isVercelSystemDomain) {
-    // If we're on localhost but have a subdomain (e.g. user.localhost:3000)
-    if (isLocalhost) {
-      const parts = host.split('.'); // Use raw host to catch subdomains
-      if (parts.length > 1 && parts[0] !== 'www' && parts[0] !== 'localhost') {
-        subdomain = parts[0];
-      }
+  // NUCLEAR OPTION: If this is the main app domain OR a Vercel system domain, 
+  // we do NOT do any subdomain processing. It's the home base.
+  if (isAppDomain || isVercelDomain) {
+    subdomain = null;
+  } else if (isLocalhost) {
+    // Only extract subdomain on localhost if it's specifically prefixed (e.g. user.localhost:3000)
+    const parts = host.split('.');
+    if (parts.length > 1 && parts[0] !== 'localhost' && parts[0] !== 'www') {
+      subdomain = parts[0];
     }
-    // For Vercel/App domains, we never extract a subdomain from the host header itself
   } else {
-    // For production custom domains (e.g. user.carlynesdomain.com)
+    // For Production Custom Domains: (e.g. carlyne.yourdomain.com)
     const parts = hostname.split('.');
-    if (parts.length > 2) {
-      subdomain = parts[0];
-    } else if (parts.length === 2 && !hostname.includes(appDomain)) {
-      subdomain = parts[0];
+    if (parts.length > 1) {
+      // If we are on some-subdomain.custom-domain.com
+      // The subdomain is the first part
+      const firstPart = parts[0];
+      if (firstPart !== 'www' && hostname !== appDomain) {
+        subdomain = firstPart;
+      }
     }
   }
 
-  // Safety: never let 'www' be a username
-  if (subdomain === 'www') subdomain = null;
-
-  console.log(`Middleware Debug: final subdomain=${subdomain}`);
+  console.log(`[Middleware] Final Subdomain: ${subdomain || 'NONE'}`);
   
   // If we have a subdomain, rewrite to portfolio page
   if (subdomain) {
@@ -55,9 +56,8 @@ export function middleware(request: NextRequest) {
       return NextResponse.next();
     }
     
-    console.log(`Middleware Debug: rewriting to /portfolio/${subdomain}${url.pathname}`);
+    console.log(`[Middleware] REWRITING to: /portfolio/${subdomain}${url.pathname}`);
     
-    // Rewrite to the portfolio page
     url.pathname = `/portfolio/${subdomain}${url.pathname === '/' ? '' : url.pathname}`;
     return NextResponse.rewrite(url);
   }
