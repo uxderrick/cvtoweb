@@ -1,14 +1,17 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
 
 function PublishedContent() {
   const searchParams = useSearchParams();
   const username = searchParams.get('username');
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const portfolioUrl = `${origin}/portfolio/${username}`;
+  const [portfolioUrl, setPortfolioUrl] = useState(`/portfolio/${username}`);
+
+  useEffect(() => {
+    setPortfolioUrl(`${window.location.origin}/portfolio/${username}`);
+  }, [username]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(portfolioUrl);

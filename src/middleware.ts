@@ -21,9 +21,13 @@ export function middleware(request: NextRequest) {
     }
   } else {
     // For production: username.cvtoweb.com
-    const parts = hostname.split('.');
-    if (parts.length > 2 || (parts.length === 2 && !hostname.includes(appDomain))) {
-      subdomain = parts[0];
+    // Skip Vercel preview/deployment URLs (*.vercel.app, *.vercel.sh)
+    const isVercelUrl = hostname.endsWith('.vercel.app') || hostname.endsWith('.vercel.sh');
+    if (!isVercelUrl) {
+      const parts = hostname.split('.');
+      if (parts.length > 2 || (parts.length === 2 && !hostname.includes(appDomain))) {
+        subdomain = parts[0];
+      }
     }
   }
   
