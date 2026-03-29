@@ -7,14 +7,8 @@ import Link from 'next/link';
 function PublishedContent() {
   const searchParams = useSearchParams();
   const username = searchParams.get('username');
-  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'cvtoweb.com';
-  const hasCustomDomain = typeof window !== 'undefined' &&
-    !window.location.hostname.includes('localhost') &&
-    !window.location.hostname.includes('127.0.0.1') &&
-    !window.location.hostname.includes('.vercel.app');
-  const portfolioUrl = hasCustomDomain
-    ? `https://${username}.${appDomain}`
-    : `${typeof window !== 'undefined' ? window.location.origin : ''}/portfolio/${username}`;
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const portfolioUrl = `${origin}/portfolio/${username}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(portfolioUrl);
