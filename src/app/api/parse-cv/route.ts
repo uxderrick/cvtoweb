@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Parse CV with Claude
+    // Parse CV with AI
     const portfolioData = await parseCV(cvText);
 
     // Create a temporary portfolio entry (not published yet)

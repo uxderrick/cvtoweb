@@ -65,10 +65,16 @@ export async function POST(request: NextRequest) {
       // We don't fail the entire publish request just because the email failed
     }
 
+    const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost:3000';
+    const isLocal = appDomain.includes('localhost');
+    const url = isLocal
+      ? `http://localhost:3000/portfolio/${username.toLowerCase()}`
+      : `https://${username.toLowerCase()}.${appDomain}`;
+
     return NextResponse.json({
       success: true,
       username: portfolio.username,
-      url: `${username.toLowerCase()}.${process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost:3000'}`,
+      url,
     });
 
   } catch (error) {

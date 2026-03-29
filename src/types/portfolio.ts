@@ -28,6 +28,8 @@ export interface PortfolioData {
     website?: string;
     location?: string;
   };
+  theme?: 'midnight' | 'snow' | 'cobalt';
+  sectionOrder?: string[];
 }
 
 export interface Portfolio {

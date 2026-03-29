@@ -3,16 +3,16 @@ import { Resend } from 'resend';
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export async function sendWelcomeEmail(email: string, username: string, portfolioId: string) {
-  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'cvtoweb.com';
-  
-  // Format the URLs based on the Node environment
-  const isLocal = process.env.NODE_ENV === 'development';
-  const publicUrl = isLocal 
-    ? `http://localhost:3000/portfolio/${username}` 
+  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'cvtoweb.vercel.app';
+
+  // Format the URLs
+  const isLocal = appDomain.includes('localhost') || appDomain.includes('127.0.0.1');
+  const publicUrl = isLocal
+    ? `http://${appDomain}/portfolio/${username}`
     : `https://${username}.${appDomain}`;
-    
+
   const editUrl = isLocal
-    ? `http://localhost:3000/preview/${portfolioId}`
+    ? `http://${appDomain}/preview/${portfolioId}`
     : `https://${appDomain}/preview/${portfolioId}`;
 
   // If no API key is provided, just simulate the email send
@@ -26,8 +26,8 @@ export async function sendWelcomeEmail(email: string, username: string, portfoli
 
   try {
     const { data, error } = await resend.emails.send({
-      // Use the verified domain in production, but keep testing domain for local dev
-      from: isLocal ? 'CVtoWeb <onboarding@resend.dev>' : `CVtoWeb <hello@${appDomain}>`, 
+      // Use Resend's default testing domain so you can send test emails to yourself immediately
+      from: 'CVtoWeb <cvtoweb@uxderrick.com>',
       to: email,
       subject: '🎉 Your Portfolio is Live!',
       html: `

@@ -1,24 +1,17 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense } from 'react';
 import Link from 'next/link';
 
 function PublishedContent() {
   const searchParams = useSearchParams();
   const username = searchParams.get('username');
   const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'cvtoweb.com';
-  
-  // Use path-based URL for local/dev testing (no wildcard DNS needed)
-  const [portfolioUrl, setPortfolioUrl] = useState(`https://${username}.${appDomain}`);
-  
-  useEffect(() => {
-    const hostname = window.location.hostname;
-    const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || !hostname.includes(appDomain);
-    if (isLocal) {
-      setPortfolioUrl(`${window.location.origin}/portfolio/${username}`);
-    }
-  }, [username, appDomain]);
+  const isLocal = appDomain.includes('localhost');
+  const portfolioUrl = isLocal 
+    ? `http://${appDomain}/portfolio/${username}` 
+    : `https://${username}.${appDomain}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(portfolioUrl);
