@@ -4,6 +4,7 @@ import { PortfolioData } from '@/types/portfolio';
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export async function parseCV(cvText: string): Promise<PortfolioData> {
+  // Use gemini-1.5-flash-latest for the best stability and extraction performance
   const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
   const prompt = `You are a CV/resume parser. Extract the following information from the CV text and return it as valid JSON only, with no additional text or explanation.

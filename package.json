@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.71.2",
     "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.89.0",
+    "canvas": "^3.2.2",
     "next": "16.1.1",
     "pdfjs-dist": "^3.11.174",
     "react": "19.2.3",
