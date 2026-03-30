@@ -1,12 +1,12 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 import { PortfolioData } from '@/types/portfolio';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const openai = new OpenAI({
+  baseURL: 'https://api.deepseek.com',
+  apiKey: process.env.DEEPSEEK_API_KEY!,
+});
 
 export async function parseCV(cvText: string): Promise<PortfolioData> {
-  // Use gemini-1.5-flash-latest for the best stability and extraction performance
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
   const prompt = `You are a CV/resume parser. Extract the following information from the CV text and return it as valid JSON only, with no additional text or explanation.
 
 The JSON structure must be:
@@ -50,9 +50,13 @@ ${cvText}
 Respond with only valid JSON, no markdown code blocks, no explanation.`;
 
   try {
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
+    const completion = await openai.chat.completions.create({
+      model: 'deepseek-chat',
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 4096,
+    });
+
+    const text = completion.choices[0]?.message?.content || '';
 
     // Remove markdown code blocks if present
     let jsonText = text.trim();
@@ -66,11 +70,11 @@ Respond with only valid JSON, no markdown code blocks, no explanation.`;
       const parsed = JSON.parse(jsonText) as PortfolioData;
       return parsed;
     } catch (parseError) {
-      console.error('Failed to parse Gemini response as JSON:', jsonText);
+      console.error('Failed to parse DeepSeek response as JSON:', jsonText);
       throw new Error('Failed to parse AI response as JSON');
     }
   } catch (apiError) {
-    console.error('Gemini API Error:', apiError);
+    console.error('DeepSeek API Error:', apiError);
     throw new Error('Failed to generate portfolio data from CV');
   }
 }
