@@ -70,7 +70,7 @@ Respond with only valid JSON, no markdown code blocks, no explanation.`;
       const parsed = JSON.parse(jsonText) as PortfolioData;
       return parsed;
     } catch (parseError) {
-      console.error('Failed to parse DeepSeek response as JSON:', jsonText);
+      console.error('Failed to parse DeepSeek response as JSON:', jsonText, parseError);
       throw new Error('Failed to parse AI response as JSON');
     }
   } catch (apiError) {
