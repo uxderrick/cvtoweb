@@ -236,7 +236,7 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
         suppressContentEditableWarning
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onBlur={(e: any) => onSave(e.target.innerText)}
-        onKeyDown={(e) => {
+        onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
           if (onKeyDown) {
             onKeyDown(e);
             return;
@@ -244,7 +244,7 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
 
           if (e.key === 'Enter') {
             e.preventDefault();
-            onSave(getEditableText(e as React.KeyboardEvent<HTMLElement>));
+            onSave(getEditableText(e));
             if (nextFocusId) {
               setFocusTicket({ id: nextFocusId });
             }
