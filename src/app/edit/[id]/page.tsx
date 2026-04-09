@@ -31,7 +31,7 @@ export default async function EditPage({
   // Safety guard: if for some reason this portfolio isn't published yet,
   // redirect to the standard preview/draft page instead.
   if (!portfolio.is_published && !portfolio.username) {
-    redirect(`/preview/${id}`);
+    redirect(`/preview/${id}?token=${token}`);
   }
 
   return <EditClient portfolio={portfolio as Portfolio} editToken={token!} />;
