@@ -3,7 +3,9 @@ import { PortfolioData } from '@/types/portfolio';
 
 export async function parseCV(cvText: string): Promise<PortfolioData> {
 
-  const prompt = `You are a CV/resume parser. Extract the following information from the CV text and return it as valid JSON only, with no additional text or explanation.
+  const prompt = `You are a CV/resume parser. First, determine if the document is a CV or resume. If it is NOT a CV or resume (e.g. it is an invoice, contract, article, report, or any other document type), respond with exactly: {"error":"not_a_cv"}
+
+If it IS a CV or resume, extract the following information and return it as valid JSON only, with no additional text or explanation.
 
 The JSON structure must be:
 {

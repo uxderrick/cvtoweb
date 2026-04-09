@@ -38,8 +38,12 @@ export default function Home() {
   }, []);
 
   const handleFile = async (file: File) => {
-    if (file.type !== 'application/pdf') {
-      setError('Please upload a PDF file');
+    const isPdf = file.type === 'application/pdf';
+    const isDocx = file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      || file.name.toLowerCase().endsWith('.docx');
+
+    if (!isPdf && !isDocx) {
+      setError('Please upload a PDF or Word document (.pdf or .docx)');
       return;
     }
 
@@ -105,7 +109,7 @@ export default function Home() {
         >
           <input
             type="file"
-            accept="application/pdf"
+            accept="application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             onChange={handleFileInput}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             disabled={isLoading}
@@ -128,7 +132,7 @@ export default function Home() {
                 Drop your CV here or click to upload
               </p>
               <p className="text-slate-400">
-                PDF files only • Max 5MB
+                PDF or Word (.docx) • Max 5MB
               </p>
             </>
           )}

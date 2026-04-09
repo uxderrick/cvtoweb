@@ -230,13 +230,16 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
       const el = document.getElementById(focusTicket.id);
       if (el) {
         el.focus({ preventScroll: true });
-        // Place cursor at end for contentEditable
+        // Place cursor at end — save/restore scroll because selection.addRange
+        // scrolls the element into view even when preventScroll is set on focus()
+        const scrollY = window.scrollY;
         const range = document.createRange();
         const selection = window.getSelection();
         range.selectNodeContents(el);
         range.collapse(false);
         selection?.removeAllRanges();
         selection?.addRange(range);
+        window.scrollTo({ top: scrollY });
       }
       setFocusTicket(null);
     }
