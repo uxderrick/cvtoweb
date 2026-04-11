@@ -7,6 +7,7 @@ import PortfolioTemplate from '@/components/PortfolioTemplate';
 import PublishModal from '@/components/PublishModal';
 import { getPortfolioUrl } from '@/lib/urls';
 import { Button } from '@/components/ui/Button';
+import { ThemeSelector } from '@/components/ui/ThemeSelector';
 
 interface Props {
   portfolio: Portfolio;
@@ -26,14 +27,6 @@ function EditIcon() {
   return (
     <svg width={15} height={15} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-    </svg>
-  );
-}
-
-function PublishIcon() {
-  return (
-    <svg width={15} height={15} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
     </svg>
   );
 }
@@ -253,48 +246,10 @@ export default function PreviewClient({ portfolio, editToken }: Props) {
           {isEditing ? (
             <>
               {/* Theme selector */}
-              <div
-                className="flex items-center gap-1.5 mr-1"
-                style={{
-                  backgroundColor: 'oklch(1 0 0 / 0.05)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: '0.625rem',
-                  padding: '0 0.625rem',
-                  height: '2.5rem',
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: '0.6rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    fontWeight: 700,
-                    color: 'var(--text-muted)',
-                  }}
-                >
-                  Theme
-                </span>
-                <select
-                  value={localData.theme || 'midnight'}
-                  onChange={(e) =>
-                    setLocalData({ ...localData, theme: e.target.value as 'midnight' | 'snow' | 'cobalt' })
-                  }
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    outline: 'none',
-                    fontSize: 'var(--type-body-sm-size)',
-                    fontWeight: 600,
-                    color: 'var(--text-primary)',
-                    cursor: 'pointer',
-                    paddingRight: '0.25rem',
-                  }}
-                >
-                  <option value="midnight" style={{ backgroundColor: 'var(--brand-900)' }}>Midnight</option>
-                  <option value="snow"     style={{ backgroundColor: 'var(--brand-900)' }}>Snow</option>
-                  <option value="cobalt"   style={{ backgroundColor: 'var(--brand-900)' }}>Cobalt</option>
-                </select>
-              </div>
+              <ThemeSelector
+                value={localData.theme || 'midnight'}
+                onChange={(theme) => setLocalData({ ...localData, theme })}
+              />
 
               <Button
                 variant="ghost"

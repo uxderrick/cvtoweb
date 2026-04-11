@@ -5,6 +5,7 @@ import { Portfolio, PortfolioData } from '@/types/portfolio';
 import PortfolioTemplate from '@/components/PortfolioTemplate';
 import { getPortfolioUrl } from '@/lib/urls';
 import { Button } from '@/components/ui/Button';
+import { ThemeSelector } from '@/components/ui/ThemeSelector';
 
 interface Props {
   portfolio: Portfolio;
@@ -189,35 +190,10 @@ export default function EditClient({ portfolio, editToken }: Props) {
           {isEditing ? (
             <>
               {/* Theme selector */}
-              <div
-                className="flex items-center gap-1.5 mr-1"
-                style={{
-                  backgroundColor: 'oklch(1 0 0 / 0.05)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: '0.625rem',
-                  padding: '0 0.625rem',
-                  height: '2.5rem',
-                }}
-              >
-                <span style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, color: 'var(--text-muted)' }}>
-                  Theme
-                </span>
-                <select
-                  value={localData.theme || 'midnight'}
-                  onChange={(e) =>
-                    setLocalData({ ...localData, theme: e.target.value as 'midnight' | 'snow' | 'cobalt' })
-                  }
-                  style={{
-                    backgroundColor: 'transparent', border: 'none', outline: 'none',
-                    fontSize: 'var(--type-body-sm-size)', fontWeight: 600,
-                    color: 'var(--text-primary)', cursor: 'pointer', paddingRight: '0.25rem',
-                  }}
-                >
-                  <option value="midnight" style={{ backgroundColor: 'var(--brand-900)' }}>Midnight</option>
-                  <option value="snow"     style={{ backgroundColor: 'var(--brand-900)' }}>Snow</option>
-                  <option value="cobalt"   style={{ backgroundColor: 'var(--brand-900)' }}>Cobalt</option>
-                </select>
-              </div>
+              <ThemeSelector
+                value={localData.theme || 'midnight'}
+                onChange={(theme) => setLocalData({ ...localData, theme })}
+              />
 
               <Button
                 variant="ghost"
