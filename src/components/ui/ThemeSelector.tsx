@@ -34,6 +34,19 @@ function ChevronIcon({ open }: { open: boolean }) {
   );
 }
 
+function CheckIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 16 16" fill="none" stroke="currentColor">
+      <path
+        d="M3 8.5L6.2 11.5L13 4.8"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function ThemeSelector({ value, onChange }: ThemeSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -193,8 +206,11 @@ export function ThemeSelector({ value, onChange }: ThemeSelectorProps) {
                   <span>{option.label}</span>
                 </span>
                 {selected && (
-                  <span style={{ color: 'var(--text-brand)', fontSize: '0.75rem', fontWeight: 700 }}>
-                    Active
+                  <span
+                    aria-hidden="true"
+                    style={{ color: 'var(--text-brand)', display: 'inline-flex', alignItems: 'center' }}
+                  >
+                    <CheckIcon />
                   </span>
                 )}
               </button>
