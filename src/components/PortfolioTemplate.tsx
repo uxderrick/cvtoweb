@@ -941,11 +941,15 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
 
       {/* Footer */}
       <footer className={`max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 text-center ${themeStyles.label} text-xs border-t ${themeStyles.border} mt-16 sm:mt-32`}>
-        <p className="tracking-widest uppercase mb-2">Designed and Built by AI</p>
+        <p className="tracking-widest uppercase mb-2">Designed and Built by <span style={{ color: 'var(--text-brand)' }}>Carlyne</span></p>
         <p>
           Generated with{' '}
-          <Link href="/" className={`${themeStyles.muted} hover:${themeStyles.text} transition-colors font-bold`}>
+          <Link href="/" className={`${themeStyles.muted} hover:${themeStyles.text} transition-colors font-bold`} style={{ textDecoration: 'none' }}>
             CV TO WEB
+          </Link>
+          {' '}·{' '}
+          <Link href="/" className="font-bold transition-colors" style={{ color: 'var(--text-brand)', textDecoration: 'none' }}>
+            Generate yours here
           </Link>
         </p>
       </footer>

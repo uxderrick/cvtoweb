@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../app/design-system";
 
 /* ============================================================
    CVTOWEB DESIGN SYSTEM — Color Tokens
@@ -366,6 +367,11 @@ body {
   font-weight: var(--type-body-md-weight);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Links — remove browser default underline globally */
+a {
+  text-decoration: none;
 }
 
 /* Native element defaults — apply type roles to semantic HTML */

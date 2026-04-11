@@ -58,8 +58,8 @@ export default function Home() {
     >
       {/* Nav */}
       <nav
-        className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b"
-        style={{ borderColor: 'var(--border-subtle)' }}
+        className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5"
+        style={{ borderBottom: '1px solid oklch(1 0 0 / 0.08)' }}
       >
         <span
           className="font-semibold tracking-tight"
