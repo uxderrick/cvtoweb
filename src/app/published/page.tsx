@@ -198,7 +198,7 @@ function PublishedContent() {
     >
       {/* ── Nav ─────────────────────────────────────────────── */}
       <nav
-        className="flex items-center justify-between px-8 py-5 border-b"
+        className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b"
         style={{ borderColor: 'var(--border-subtle)' }}
       >
         <Link
@@ -211,35 +211,34 @@ function PublishedContent() {
       </nav>
 
       {/* ── Hero ────────────────────────────────────────────── */}
-      <div className="relative flex-1 flex flex-col items-center justify-center px-6 py-20">
+      <div className="relative flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-20">
         <div className="relative w-full max-w-lg flex flex-col items-center text-center">
 
           {/* Celebration mascot */}
-          <div
-            className="relative"
-            style={{ margin: '0 auto 1rem' }}
-          >
+          <div className="relative" style={{ margin: '0 auto 0.5rem' }}>
             <div
               aria-hidden
               className="absolute pointer-events-none"
               style={{
-                inset: '-64px',
+                inset: '-40px',
                 background:
                   'radial-gradient(ellipse 55% 70% at 50% 52%, oklch(0.68 0.18 220 / 0.12) 0%, oklch(0.68 0.18 220 / 0.05) 45%, transparent 75%)',
               }}
             />
-            <Mascot
-              state="celebrating"
-              size="xl"
-              aria-label="Celebrating mascot"
-            />
+            {/* lg on mobile, xl on desktop */}
+            <span className="sm:hidden">
+              <Mascot state="celebrating" size="lg" aria-label="Celebrating mascot" />
+            </span>
+            <span className="hidden sm:block">
+              <Mascot state="celebrating" size="xl" aria-label="Celebrating mascot" />
+            </span>
           </div>
 
           {/* Headline */}
           <h1
             className="mb-2"
             style={{
-              fontSize: 'var(--type-display-size)',
+              fontSize: 'clamp(2.25rem, 8vw, 4.5rem)',
               fontWeight: 'var(--type-display-weight)',
               lineHeight: 'var(--type-display-lh)',
               letterSpacing: 'var(--type-display-ls)',
@@ -249,7 +248,7 @@ function PublishedContent() {
             You&apos;re live
           </h1>
           <p
-            className="mb-7"
+            className="mb-5 sm:mb-7"
             style={{
               fontSize: 'var(--type-body-lg-size)',
               lineHeight: 'var(--type-body-lg-lh)',
@@ -267,7 +266,7 @@ function PublishedContent() {
             >
               Your portfolio URL
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <Input
                 size="md"
                 value={portfolioUrl}

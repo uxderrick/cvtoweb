@@ -58,7 +58,7 @@ export default function Home() {
     >
       {/* Nav */}
       <nav
-        className="flex items-center justify-between px-8 py-5 border-b"
+        className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b"
         style={{ borderColor: 'var(--border-subtle)' }}
       >
         <span
@@ -70,7 +70,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <div className="relative flex-1 flex flex-col items-center justify-center px-6 py-20">
+      <div className="relative flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-20">
 
         {/* Info-400 radial glow — centred on card 2, bleeding through text + upload */}
         <div
@@ -84,7 +84,7 @@ export default function Home() {
 
           {/* Eyebrow */}
           <span
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-8"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-5 sm:mb-8"
             style={{
               fontSize: 'var(--type-overline-size)',
               fontWeight: 'var(--type-overline-weight)',
@@ -104,9 +104,9 @@ export default function Home() {
 
           {/* Headline */}
           <h1
-            className="mb-5"
+            className="mb-4 sm:mb-5"
             style={{
-              fontSize: 'var(--type-display-size)',
+              fontSize: 'clamp(2.25rem, 8vw, 4.5rem)',
               fontWeight: 'var(--type-display-weight)',
               lineHeight: 'var(--type-display-lh)',
               letterSpacing: 'var(--type-display-ls)',
@@ -120,7 +120,7 @@ export default function Home() {
 
           {/* Subheadline */}
           <p
-            className="mb-12 max-w-md"
+            className="mb-8 sm:mb-12 max-w-md"
             style={{
               fontSize: 'var(--type-body-lg-size)',
               lineHeight: 'var(--type-body-lg-lh)',
@@ -133,8 +133,8 @@ export default function Home() {
 
         </div>{/* close max-w-2xl text column */}
 
-        {/* ── Hero illustration — breaks out of narrow text column ── */}
-        <div className="relative z-10 w-full" style={{ height: '340px', maxWidth: '900px', marginTop: '24px', marginBottom: '0px' }}>
+        {/* ── Hero illustration — desktop only (fixed-pixel layout) ── */}
+        <div className="hidden sm:block relative z-10 w-full" style={{ height: '340px', maxWidth: '900px', marginTop: '24px', marginBottom: '0px' }}>
 
           {/* Ambient glow */}
           <div
@@ -320,7 +320,7 @@ export default function Home() {
 
         <div className="relative z-10 w-full flex flex-col items-center" style={{ maxWidth: '850px' }}>
           {/* Upload zone */}
-          <div className={`w-full ${isLoading ? 'pointer-events-none' : ''}`} style={{ maxWidth: '900px' }}>
+          <div className={`w-full mt-0 sm:mt-0 ${isLoading ? 'pointer-events-none' : ''}`} style={{ maxWidth: '900px' }}>
             <FileUpload
               size="lg"
               accept="application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"

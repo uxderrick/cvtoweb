@@ -7,6 +7,56 @@ import { getPortfolioUrl } from '@/lib/urls';
 import { Button } from '@/components/ui/Button';
 import { ThemeSelector } from '@/components/ui/ThemeSelector';
 
+/* ── Mobile overflow menu ───────────────────────────────────── */
+function MoreMenu({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative sm:hidden">
+      <button
+        aria-label="More actions"
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          width: '44px', height: '44px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          borderRadius: '0.5rem', border: '1px solid var(--border-subtle)',
+          backgroundColor: open ? 'oklch(1 0 0 / 0.08)' : 'transparent',
+          color: 'var(--text-secondary)', cursor: 'pointer',
+        }}
+      >
+        <svg width={18} height={18} viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
+        </svg>
+      </button>
+      {open && (
+        <div
+          style={{
+            position: 'absolute', top: 'calc(100% + 8px)', right: 0, zIndex: 100,
+            minWidth: '200px', padding: '0.5rem',
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border-default)',
+            borderRadius: '0.875rem',
+            boxShadow: '0 16px 40px oklch(0.050 0.018 278.887 / 0.45)',
+          }}
+          onClick={() => setOpen(false)}
+        >
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface Props {
   portfolio: Portfolio;
   editToken: string;
@@ -126,7 +176,7 @@ export default function EditClient({ portfolio, editToken }: Props) {
     >
       {/* ── Top Bar ─────────────────────────────────────────── */}
       <div
-        className="sticky top-0 z-50 flex items-center justify-between px-4 py-2.5"
+        className="sticky top-0 z-50 flex items-center justify-between px-3 sm:px-4 py-2.5"
         style={{
           backgroundColor: 'var(--brand-800)',
           borderBottom: '1px solid var(--border-subtle)',
@@ -134,11 +184,11 @@ export default function EditClient({ portfolio, editToken }: Props) {
         }}
       >
         {/* Left: status + save indicator */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           {/* Status pill */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
             <span
-              className="w-2 h-2 rounded-full"
+              className="w-2 h-2 rounded-full flex-shrink-0"
               style={{
                 backgroundColor: isEditing
                   ? 'var(--warning-400, oklch(0.78 0.17 75))'
@@ -147,6 +197,7 @@ export default function EditClient({ portfolio, editToken }: Props) {
               }}
             />
             <span
+              className="truncate"
               style={{
                 fontSize: 'var(--type-body-sm-size)',
                 fontWeight: 600,
@@ -157,92 +208,92 @@ export default function EditClient({ portfolio, editToken }: Props) {
             </span>
           </div>
 
-          {/* Divider */}
-          <div style={{ width: '1px', height: '18px', backgroundColor: 'var(--border-subtle)' }} />
-
-          {/* Auto-save status */}
-          <div className="hidden md:flex items-center gap-1.5">
-            {saveStatus === 'saving' && (
-              <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <svg width={12} height={12} viewBox="0 0 16 16" fill="none"
-                  style={{ animation: 'btn-spin 0.7s linear infinite' }}>
-                  <circle cx="8" cy="8" r="6" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2.5" />
-                  <path d="M14 8a6 6 0 00-6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-                </svg>
-                Saving…
-              </span>
-            )}
-            {saveStatus === 'saved' && (
-              <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--success-400)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <CheckIcon /> Saved
-              </span>
-            )}
-            {saveStatus === 'error' && (
-              <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--text-error)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <AlertIcon /> Save failed
-              </span>
-            )}
+          {/* Divider + auto-save — desktop only */}
+          <div className="hidden sm:flex items-center gap-3">
+            <div style={{ width: '1px', height: '18px', backgroundColor: 'var(--border-subtle)' }} />
+            <div className="flex items-center gap-1.5">
+              {saveStatus === 'saving' && (
+                <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <svg width={12} height={12} viewBox="0 0 16 16" fill="none"
+                    style={{ animation: 'btn-spin 0.7s linear infinite' }}>
+                    <circle cx="8" cy="8" r="6" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2.5" />
+                    <path d="M14 8a6 6 0 00-6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                  Saving…
+                </span>
+              )}
+              {saveStatus === 'saved' && (
+                <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--success-400)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <CheckIcon /> Saved
+                </span>
+              )}
+              {saveStatus === 'error' && (
+                <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--text-error)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <AlertIcon /> Save failed
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Right: actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-shrink-0">
           {isEditing ? (
             <>
-              {/* Theme selector */}
-              <ThemeSelector
-                value={localData.theme || 'midnight'}
-                onChange={(theme) => setLocalData({ ...localData, theme })}
-              />
+              {/* Desktop: all controls */}
+              <div className="hidden sm:flex items-center gap-2">
+                <ThemeSelector
+                  value={localData.theme || 'midnight'}
+                  onChange={(theme) => setLocalData({ ...localData, theme })}
+                />
+                <Button variant="ghost" size="md" disabled={isSaving}
+                  onClick={() => { setLocalData(portfolio.portfolio_data); setIsEditing(false); }}>
+                  Cancel
+                </Button>
+                <Button variant="secondary" size="md" iconRight={<ExternalLinkIcon />}
+                  onClick={() => window.open(publicUrl, '_blank')}>
+                  Visit Live Site
+                </Button>
+              </div>
 
-              <Button
-                variant="ghost"
-                size="md"
-                disabled={isSaving}
-                onClick={() => {
-                  setLocalData(portfolio.portfolio_data);
-                  setIsEditing(false);
-                }}
-              >
-                Cancel
+              {/* Always: primary save */}
+              <Button variant="primary" size="md" loading={isSaving} onClick={handleSaveUpdates}>
+                <span className="sm:hidden">Save</span>
+                <span className="hidden sm:inline">Save Updates</span>
               </Button>
 
-              <Button
-                variant="secondary"
-                size="md"
-                iconRight={<ExternalLinkIcon />}
-                onClick={() => window.open(publicUrl, '_blank')}
-              >
-                Visit Live Site
-              </Button>
-
-              <Button
-                variant="primary"
-                size="md"
-                loading={isSaving}
-                onClick={handleSaveUpdates}
-              >
-                Save Updates
-              </Button>
+              {/* Mobile overflow */}
+              <MoreMenu>
+                <div style={{ padding: '0.5rem', borderBottom: '1px solid var(--border-subtle)', marginBottom: '0.25rem' }}>
+                  <ThemeSelector
+                    value={localData.theme || 'midnight'}
+                    onChange={(theme) => setLocalData({ ...localData, theme })}
+                  />
+                </div>
+                <button
+                  style={{ width: '100%', padding: '0.65rem 0.75rem', textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--type-body-sm-size)', color: 'var(--text-secondary)', borderRadius: '0.5rem' }}
+                  onClick={() => { setLocalData(portfolio.portfolio_data); setIsEditing(false); }}
+                >
+                  Cancel
+                </button>
+                <button
+                  style={{ width: '100%', padding: '0.65rem 0.75rem', textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--type-body-sm-size)', color: 'var(--text-secondary)', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}
+                  onClick={() => window.open(publicUrl, '_blank')}
+                >
+                  <ExternalLinkIcon /> Visit Live Site
+                </button>
+              </MoreMenu>
             </>
           ) : (
             <>
-              <Button
-                variant="secondary"
-                size="md"
-                iconLeft={<EditIcon />}
-                onClick={() => setIsEditing(true)}
-              >
-                Edit Content
+              <Button variant="secondary" size="md" iconLeft={<EditIcon />} onClick={() => setIsEditing(true)}>
+                <span className="sm:hidden">Edit</span>
+                <span className="hidden sm:inline">Edit Content</span>
               </Button>
-
-              <Button
-                variant="secondary"
-                size="md"
-                iconRight={<ExternalLinkIcon />}
-                onClick={() => window.open(publicUrl, '_blank')}
-              >
-                Visit Live Site
+              <Button variant="secondary" size="md" iconRight={<ExternalLinkIcon />}
+                onClick={() => window.open(publicUrl, '_blank')}>
+                <span className="sm:hidden">Visit</span>
+                <span className="hidden sm:inline">Visit Live Site</span>
               </Button>
             </>
           )}

@@ -489,8 +489,8 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
       case 'experience':
         if (data.experience.length === 0 && !isEditing) return null;
         return (
-          <section key="experience" className="mb-16">
-            <h4 className={`text-sm font-bold uppercase tracking-widest ${themeStyles.label} mb-8`}>Experience</h4>
+          <section key="experience" className="mb-10 sm:mb-16">
+            <h4 className={`text-sm font-bold uppercase tracking-widest ${themeStyles.label} mb-6 sm:mb-8`}>Experience</h4>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -786,14 +786,14 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
   return (
     <div className={`min-h-screen ${themeStyles.bg} ${themeStyles.text} transition-colors duration-500`}>
       {/* Header */}
-      <header className="max-w-4xl mx-auto px-6 pt-24 pb-12">
+      <header className="max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-24 pb-8 sm:pb-12">
         <EditableText
           id="profile-name"
           element="h1"
           value={data.name}
           onSave={(v) => handleChange('name', v)}
           nextFocusId="profile-title"
-          className="text-6xl font-extralight mb-6 tracking-tight block"
+          className="text-4xl sm:text-5xl md:text-6xl font-extralight mb-4 sm:mb-6 tracking-tight block"
           isEditing={!!isEditing}
           setFocusTicket={setFocusTicket}
         />
@@ -803,13 +803,13 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
           value={data.title}
           onSave={(v) => handleChange('title', v)}
           nextFocusId="profile-summary"
-          className={`text-2xl ${themeStyles.muted} mb-12 block font-light`}
+          className={`text-xl sm:text-2xl ${themeStyles.muted} mb-8 sm:mb-12 block font-light`}
           isEditing={!!isEditing}
           setFocusTicket={setFocusTicket}
         />
 
         {/* Contact Links */}
-        <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm font-medium">
+        <div className="flex flex-wrap gap-x-5 sm:gap-x-8 gap-y-3 sm:gap-y-4 text-sm font-medium">
           {data.contact.email && (
             <div className="flex items-center gap-3">
               <span className={themeStyles.label}>Email</span>
@@ -901,10 +901,10 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 pb-32">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-16 sm:pb-32">
         {/* Summary */}
         {data.summary && (
-          <section className="mb-24">
+          <section className="mb-12 sm:mb-24">
             <EditableText
               id="profile-summary"
               element="p"
@@ -912,14 +912,14 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
               onSave={(v) => handleChange('summary', v)}
               linkify
               linkClassName={`${themeStyles.accent} underline underline-offset-2`}
-              className={`text-xl leading-relaxed font-light ${themeStyles.text} opacity-90`}
+              className={`text-lg sm:text-xl leading-relaxed font-light ${themeStyles.text} opacity-90`}
               isEditing={!!isEditing}
               setFocusTicket={setFocusTicket}
             />
           </section>
         )}
 
-        <div className="space-y-24">
+        <div className="space-y-12 sm:space-y-24">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -940,7 +940,7 @@ export default function PortfolioTemplate({ data, isEditing, onUpdate }: Props) 
       </main>
 
       {/* Footer */}
-      <footer className={`max-w-4xl mx-auto px-6 py-16 text-center ${themeStyles.label} text-xs border-t ${themeStyles.border} mt-32`}>
+      <footer className={`max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 text-center ${themeStyles.label} text-xs border-t ${themeStyles.border} mt-16 sm:mt-32`}>
         <p className="tracking-widest uppercase mb-2">Designed and Built by AI</p>
         <p>
           Generated with{' '}
