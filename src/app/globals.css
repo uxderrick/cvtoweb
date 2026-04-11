@@ -377,3 +377,130 @@ h5 { font-size: var(--type-h5-size); font-weight: var(--type-h5-weight); line-he
 h6 { font-size: var(--type-h6-size); font-weight: var(--type-h6-weight); line-height: var(--type-h6-lh); letter-spacing: var(--type-h6-ls); }
 
 code, pre, kbd { font-family: var(--font-mono); font-size: var(--type-code-size); line-height: var(--type-code-lh); }
+
+/* ============================================================
+   MASCOT MOTION
+   ============================================================ */
+
+@keyframes mascot-idle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes mascot-think {
+  0%, 100% { transform: translateY(0px) rotate(-4deg); }
+  50% { transform: translateY(-4px) rotate(4deg); }
+}
+
+@keyframes mascot-success {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  35% { transform: translateY(-8px) scale(1.06); }
+  60% { transform: translateY(-2px) scale(0.98); }
+}
+
+@keyframes mascot-alert {
+  0%, 100% { transform: translateX(0px); }
+  15% { transform: translateX(-3px); }
+  30% { transform: translateX(3px); }
+  45% { transform: translateX(-2px); }
+  60% { transform: translateX(2px); }
+}
+
+@keyframes mascot-route {
+  0%, 100% { transform: scale(1) translateY(0px); }
+  50% { transform: scale(1.05) translateY(-2px); }
+}
+
+@keyframes mascot-celebrate {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-9px) scale(1.04); }
+}
+
+@keyframes mascot-speak {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes mascot-ring {
+  0% { opacity: 0; transform: scale(0.82); }
+  25% { opacity: 0.6; }
+  100% { opacity: 0; transform: scale(1.28); }
+}
+
+@keyframes mascot-wave {
+  0%, 100% { opacity: 0.22; transform: translateY(-50%) scale(0.92); }
+  50% { opacity: 0.7; transform: translateY(-50%) scale(1.06); }
+}
+
+@keyframes mascot-shadow {
+  0%, 100% { opacity: 0.14; transform: translateX(-50%) scaleX(1); }
+  50% { opacity: 0.08; transform: translateX(-50%) scaleX(0.82); }
+}
+
+@keyframes mascot-check {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.12); }
+  60% { transform: scale(0.96); }
+}
+
+@keyframes mascot-antenna-glow {
+  0%, 100% { opacity: 0.72; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.24); }
+}
+
+@keyframes mascot-bubble {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes mascot-confetti {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--confetti-x), var(--confetti-drop)) rotate(var(--confetti-rotate)) scale(0.45);
+    opacity: 0;
+  }
+}
+
+@keyframes mascot-sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 0.9; transform: scale(1.08); }
+}
+
+.mascot-ring {
+  animation: mascot-ring 2.4s ease-out infinite;
+}
+
+.mascot-wave {
+  animation: mascot-wave 1.8s ease-in-out infinite;
+}
+
+.mascot-shadow {
+  animation: mascot-shadow 2.6s ease-in-out infinite;
+}
+
+.mascot-check {
+  animation: mascot-check 1.9s ease-in-out infinite;
+}
+
+.mascot-antenna-glow {
+  animation: mascot-antenna-glow 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.mascot-bubble {
+  animation: mascot-bubble 2.8s ease-in-out infinite;
+}
+
+.mascot-confetti-particle {
+  animation-name: mascot-confetti;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+.mascot-sparkle {
+  animation: mascot-sparkle 1.8s ease-in-out infinite;
+  transform-origin: center;
+}

@@ -179,6 +179,220 @@ function EditLinkCard({ editUrl }: { editUrl: string }) {
   );
 }
 
+/* ── Celebration mascot ──────────────────────────────────── */
+function CelebrationMascot() {
+  const confetti = [
+    { x: 18,  y: 12,  size: 7,  color: 'oklch(0.68 0.18 220)',       delay: '0s',    dur: '3.2s', drift: 'confettiA' },
+    { x: 72,  y: 4,   size: 5,  color: 'oklch(0.52 0.17 145)',       delay: '0.4s',  dur: '2.8s', drift: 'confettiB' },
+    { x: 130, y: 8,   size: 8,  color: 'oklch(0.78 0.17 75)',        delay: '0.2s',  dur: '3.5s', drift: 'confettiC' },
+    { x: 162, y: 22,  size: 5,  color: 'oklch(0.650 0.145 278.887)', delay: '0.7s',  dur: '2.6s', drift: 'confettiA' },
+    { x: 10,  y: 70,  size: 6,  color: 'oklch(0.78 0.17 75)',        delay: '0.9s',  dur: '3.1s', drift: 'confettiB' },
+    { x: 175, y: 65,  size: 7,  color: 'oklch(0.68 0.18 220)',       delay: '0.3s',  dur: '3.8s', drift: 'confettiC' },
+    { x: 35,  y: 155, size: 5,  color: 'oklch(0.52 0.17 145)',       delay: '1.1s',  dur: '2.9s', drift: 'confettiA' },
+    { x: 155, y: 148, size: 6,  color: 'oklch(0.880 0.070 278.887)', delay: '0.6s',  dur: '3.3s', drift: 'confettiB' },
+    { x: 90,  y: 2,   size: 4,  color: 'oklch(0.880 0.070 278.887)', delay: '1.3s',  dur: '2.7s', drift: 'confettiC' },
+    { x: 145, y: 110, size: 5,  color: 'oklch(0.78 0.17 75)',        delay: '0.5s',  dur: '3.6s', drift: 'confettiA' },
+    { x: 22,  y: 115, size: 4,  color: 'oklch(0.68 0.18 220)',       delay: '1.5s',  dur: '3.0s', drift: 'confettiB' },
+    { x: 110, y: 160, size: 6,  color: 'oklch(0.650 0.145 278.887)', delay: '0.8s',  dur: '2.5s', drift: 'confettiC' },
+  ];
+
+  const stars = [
+    { cx: 24,  cy: 48,  r: 4,   delay: '0s',   dur: '1.8s' },
+    { cx: 162, cy: 38,  r: 3,   delay: '0.6s', dur: '2.2s' },
+    { cx: 14,  cy: 130, r: 3.5, delay: '1.1s', dur: '1.6s' },
+    { cx: 170, cy: 120, r: 4,   delay: '0.3s', dur: '2.0s' },
+    { cx: 82,  cy: 170, r: 3,   delay: '0.9s', dur: '1.9s' },
+    { cx: 110, cy: 6,   r: 3.5, delay: '1.4s', dur: '2.3s' },
+  ];
+
+  return (
+    <div style={{ position: 'relative', width: '190px', height: '190px', margin: '0 auto 2rem' }}>
+      <style>{`
+        @keyframes mascotFloat {
+          0%,100% { transform: translateY(0px) rotate(-1.5deg); }
+          50%      { transform: translateY(-14px) rotate(1.5deg); }
+        }
+        @keyframes armWaveL {
+          0%,100% { transform: rotate(0deg); }
+          50%      { transform: rotate(-22deg); }
+        }
+        @keyframes armWaveR {
+          0%,100% { transform: rotate(0deg); }
+          50%      { transform: rotate(22deg); }
+        }
+        @keyframes twinkle {
+          0%,100% { opacity:1; r:4; }
+          40%      { opacity:0.2; r:1.5; }
+          70%      { opacity:0.8; r:3.5; }
+        }
+        @keyframes confettiA {
+          0%   { transform:translate(0,0) rotate(0deg);   opacity:1; }
+          100% { transform:translate(18px,130px) rotate(480deg); opacity:0; }
+        }
+        @keyframes confettiB {
+          0%   { transform:translate(0,0) rotate(0deg);    opacity:1; }
+          100% { transform:translate(-22px,140px) rotate(-420deg); opacity:0; }
+        }
+        @keyframes confettiC {
+          0%   { transform:translate(0,0) rotate(0deg);   opacity:1; }
+          100% { transform:translate(8px,120px) rotate(560deg); opacity:0; }
+        }
+        @keyframes glowPulse {
+          0%,100% { opacity:0.35; }
+          50%      { opacity:0.65; }
+        }
+      `}</style>
+
+      <svg
+        viewBox="0 0 190 190"
+        width="190" height="190"
+        style={{ overflow: 'visible' }}
+        aria-hidden
+      >
+        {/* ── Glow behind mascot ── */}
+        <ellipse
+          cx="95" cy="105" rx="52" ry="44"
+          fill="oklch(0.402 0.128 278.887 / 0.45)"
+          style={{ animation: 'glowPulse 3s ease-in-out infinite', filter: 'blur(18px)' }}
+        />
+
+        {/* ── Confetti ── */}
+        {confetti.map((c, i) => (
+          <rect
+            key={i}
+            x={c.x} y={c.y}
+            width={c.size} height={c.size}
+            rx={c.size * 0.25}
+            fill={c.color}
+            style={{
+              animation: `${c.drift} ${c.dur} ${c.delay} ease-in infinite`,
+              transformOrigin: `${c.x + c.size / 2}px ${c.y + c.size / 2}px`,
+            }}
+          />
+        ))}
+
+        {/* ── Sparkle stars ── */}
+        {stars.map((s, i) => (
+          <circle
+            key={i}
+            cx={s.cx} cy={s.cy} r={s.r}
+            fill="oklch(0.880 0.070 278.887)"
+            style={{ animation: `twinkle ${s.dur} ${s.delay} ease-in-out infinite` }}
+          />
+        ))}
+
+        {/* ── Mascot (floats) ── */}
+        <g style={{ animation: 'mascotFloat 3.4s ease-in-out infinite', transformOrigin: '95px 100px' }}>
+
+          {/* Shadow */}
+          <ellipse cx="95" cy="170" rx="30" ry="6"
+            fill="oklch(0 0 0 / 0.25)"
+            style={{ filter: 'blur(4px)' }}
+          />
+
+          {/* Left arm */}
+          <g style={{ animation: 'armWaveL 3.4s ease-in-out infinite', transformOrigin: '68px 100px' }}>
+            <path d="M 68 100 Q 48 82 38 64"
+              stroke="oklch(0.402 0.128 278.887)" strokeWidth="10"
+              strokeLinecap="round" fill="none"
+            />
+            {/* Hand */}
+            <circle cx="36" cy="61" r="7" fill="oklch(0.402 0.128 278.887)" />
+          </g>
+
+          {/* Right arm */}
+          <g style={{ animation: 'armWaveR 3.4s ease-in-out infinite', transformOrigin: '122px 100px' }}>
+            <path d="M 122 100 Q 142 82 152 64"
+              stroke="oklch(0.402 0.128 278.887)" strokeWidth="10"
+              strokeLinecap="round" fill="none"
+            />
+            {/* Hand */}
+            <circle cx="154" cy="61" r="7" fill="oklch(0.402 0.128 278.887)" />
+          </g>
+
+          {/* Body */}
+          <rect x="60" y="95" width="70" height="65" rx="22"
+            fill="oklch(0.402 0.128 278.887)"
+          />
+
+          {/* Body highlight stripe */}
+          <rect x="72" y="108" width="46" height="8" rx="4"
+            fill="oklch(0.650 0.145 278.887 / 0.5)"
+          />
+          <rect x="72" y="122" width="32" height="8" rx="4"
+            fill="oklch(0.650 0.145 278.887 / 0.35)"
+          />
+
+          {/* Neck */}
+          <rect x="82" y="83" width="26" height="16" rx="8"
+            fill="oklch(0.340 0.108 278.887)"
+          />
+
+          {/* Head */}
+          <circle cx="95" cy="68" r="30"
+            fill="oklch(0.480 0.135 278.887)"
+          />
+
+          {/* Head highlight */}
+          <circle cx="84" cy="58" r="10"
+            fill="oklch(0.580 0.14 278.887 / 0.5)"
+          />
+
+          {/* Left eye white */}
+          <circle cx="84" cy="65" r="8" fill="oklch(0.970 0.004 278.887)" />
+          {/* Left pupil */}
+          <circle cx="86" cy="66" r="4.5" fill="oklch(0.170 0.061 278.887)" />
+          {/* Left eye shine */}
+          <circle cx="87" cy="64" r="1.5" fill="white" />
+
+          {/* Right eye white */}
+          <circle cx="106" cy="65" r="8" fill="oklch(0.970 0.004 278.887)" />
+          {/* Right pupil */}
+          <circle cx="108" cy="66" r="4.5" fill="oklch(0.170 0.061 278.887)" />
+          {/* Right eye shine */}
+          <circle cx="109" cy="64" r="1.5" fill="white" />
+
+          {/* Smile */}
+          <path d="M 84 76 Q 95 86 106 76"
+            stroke="oklch(0.970 0.004 278.887)" strokeWidth="2.5"
+            strokeLinecap="round" fill="none"
+          />
+
+          {/* Cheek blush left */}
+          <ellipse cx="76" cy="75" rx="7" ry="4"
+            fill="oklch(0.650 0.145 278.887 / 0.4)"
+          />
+          {/* Cheek blush right */}
+          <ellipse cx="114" cy="75" rx="7" ry="4"
+            fill="oklch(0.650 0.145 278.887 / 0.4)"
+          />
+
+          {/* Star badge on body */}
+          <path
+            d="M95 110 l3 6 h7 l-5.5 4 2 7 L95 123 l-6.5 4 2-7-5.5-4h7z"
+            fill="oklch(0.68 0.18 220)"
+          />
+
+          {/* Legs */}
+          <rect x="72" y="154" width="18" height="22" rx="9"
+            fill="oklch(0.340 0.108 278.887)"
+          />
+          <rect x="100" y="154" width="18" height="22" rx="9"
+            fill="oklch(0.340 0.108 278.887)"
+          />
+          {/* Feet */}
+          <ellipse cx="81" cy="176" rx="12" ry="7"
+            fill="oklch(0.280 0.090 278.887)"
+          />
+          <ellipse cx="109" cy="176" rx="12" ry="7"
+            fill="oklch(0.280 0.090 278.887)"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 /* ── Main content ────────────────────────────────────────── */
 function PublishedContent() {
   const searchParams  = useSearchParams();
@@ -230,17 +444,8 @@ function PublishedContent() {
 
         <div className="relative w-full max-w-lg flex flex-col items-center text-center">
 
-          {/* Success badge */}
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-8"
-            style={{
-              backgroundColor: 'oklch(0.52 0.17 145 / 0.15)',
-              border: '1px solid oklch(0.52 0.17 145 / 0.35)',
-              color: 'var(--success-400)',
-            }}
-          >
-            <CheckIcon />
-          </div>
+          {/* Celebration mascot */}
+          <CelebrationMascot />
 
           {/* Headline */}
           <h1

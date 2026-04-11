@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { FileUpload } from '@/components/ui/FileUpload';
+import { Mascot, type MascotSize, type MascotState } from '@/components/ui/Mascot';
 import { Modal } from '@/components/ui/Modal';
 import { Upload, ArrowRight, Trash2, Plus, Check, Search, Mail, User, Lock, Globe } from 'lucide-react';
 
@@ -439,6 +440,9 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
+        {/* ── MASCOTS ──────────────────────────────────────── */}
+        <MascotShowcase />
+
         {/* ── FILE UPLOAD ───────────────────────────────────── */}
         <FileUploadShowcase />
 
@@ -455,6 +459,165 @@ export default function DesignSystemPage() {
 
       </div>
     </div>
+  );
+}
+
+/* ── MascotShowcase ─────────────────────────────────────── */
+
+const mascotStates: Array<{
+  state: MascotState;
+  label: string;
+  description: string;
+}> = [
+  { state: 'idle', label: 'Idle', description: 'Gentle floating bob - default resting state' },
+  { state: 'thinking', label: 'Thinking', description: 'Head tilt with pulse rings - processing' },
+  { state: 'success', label: 'Success', description: 'Bounce-in with checkmark draw - delivered' },
+  { state: 'alert', label: 'Alert', description: 'Quick shake with amber glow - attention needed' },
+  { state: 'routing', label: 'Routing', description: 'Breathing scale with signal waves - finding route' },
+  { state: 'celebrating', label: 'Celebrating', description: 'Float up with confetti burst - milestone' },
+  { state: 'speaking', label: 'Speaking', description: 'Speech bubble with hints, tips & guidance' },
+];
+
+const mascotSizes: Array<{
+  size: MascotSize;
+  label: string;
+}> = [
+  { size: 'sm', label: 'sm' },
+  { size: 'md', label: 'md' },
+  { size: 'lg', label: 'lg' },
+  { size: 'xl', label: 'xl' },
+];
+
+function MascotShowcase() {
+  const [selectedState, setSelectedState] = useState<MascotState>('celebrating');
+
+  return (
+    <section>
+      <SectionLabel>Mascots</SectionLabel>
+      <div
+        className="rounded-[1.5rem] border p-6 md:p-8"
+        style={{
+          background:
+            'linear-gradient(180deg, oklch(0.195 0.009 278.887 / 0.72) 0%, oklch(0.140 0.007 278.887 / 0.9) 100%)',
+          borderColor: 'var(--border-default)',
+          boxShadow: '0 22px 60px oklch(0.050 0.018 278.887 / 0.35)',
+        }}
+      >
+        <div className="space-y-12">
+          <div>
+            <p
+              className="mb-5"
+              style={{
+                color: 'var(--text-brand)',
+                fontSize: 'var(--type-overline-size)',
+                fontWeight: 'var(--type-overline-weight)',
+                letterSpacing: 'var(--type-overline-ls)',
+                textTransform: 'uppercase',
+              }}
+            >
+              All states
+            </p>
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+              {mascotStates.map((entry) => {
+                const isSelected = entry.state === selectedState;
+
+                return (
+                  <button
+                    key={entry.state}
+                    type="button"
+                    onClick={() => setSelectedState(entry.state)}
+                    className="flex flex-col items-center gap-4 rounded-[1.25rem] border p-6 text-center transition-colors cursor-pointer"
+                    style={{
+                      background: isSelected
+                        ? 'linear-gradient(180deg, oklch(0.231 0.083 278.887 / 0.96) 0%, oklch(0.170 0.061 278.887 / 0.96) 100%)'
+                        : 'linear-gradient(180deg, oklch(0.170 0.061 278.887 / 0.92) 0%, oklch(0.140 0.007 278.887 / 0.94) 100%)',
+                      borderColor: isSelected ? 'var(--border-brand)' : 'var(--border-subtle)',
+                      boxShadow: isSelected
+                        ? '0 0 0 1px var(--border-brand), 0 18px 36px oklch(0.050 0.018 278.887 / 0.34)'
+                        : '0 10px 24px oklch(0.050 0.018 278.887 / 0.22)',
+                    }}
+                  >
+                    <Mascot
+                      state={entry.state}
+                      size="md"
+                      aria-label={`Pulse mascot ${entry.label}`}
+                    />
+                    <div className="space-y-1">
+                      <p
+                        style={{
+                          fontSize: 'var(--type-h5-size)',
+                          lineHeight: 'var(--type-h5-lh)',
+                          fontWeight: 'var(--type-h5-weight)',
+                          letterSpacing: 'var(--type-h5-ls)',
+                          color: 'var(--text-primary)',
+                        }}
+                      >
+                        {entry.label}
+                      </p>
+                      <p
+                        style={{
+                          fontSize: 'var(--type-body-sm-size)',
+                          lineHeight: 'var(--type-body-sm-lh)',
+                          color: 'var(--text-secondary)',
+                          maxWidth: '24rem',
+                        }}
+                      >
+                        {entry.description}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div
+            className="border-t pt-10"
+            style={{ borderColor: 'var(--border-subtle)' }}
+          >
+            <p
+              className="mb-6"
+              style={{
+                color: 'var(--text-brand)',
+                fontSize: 'var(--type-overline-size)',
+                fontWeight: 'var(--type-overline-weight)',
+                letterSpacing: 'var(--type-overline-ls)',
+                textTransform: 'uppercase',
+              }}
+            >
+              Sizes
+            </p>
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+              {mascotSizes.map((entry) => (
+                <div
+                  key={entry.size}
+                  className="flex flex-col items-center justify-end text-center"
+                  style={{ minHeight: entry.size === 'xl' ? '20rem' : '16rem' }}
+                >
+                  <Mascot
+                    state="celebrating"
+                    size={entry.size}
+                    aria-label={`Celebrating mascot size ${entry.label}`}
+                  />
+                  <p
+                    style={{
+                      marginTop: '1.25rem',
+                      fontSize: 'var(--type-body-lg-size)',
+                      lineHeight: 'var(--type-body-lg-lh)',
+                      fontWeight: 600,
+                      color: 'var(--text-secondary)',
+                      textTransform: 'lowercase',
+                    }}
+                  >
+                    {entry.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

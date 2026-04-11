@@ -67,13 +67,6 @@ export default function Home() {
         >
           CV<span style={{ color: 'var(--text-brand)' }}>to</span>Web
         </span>
-        <a
-          href="/design-system"
-          className="transition-colors"
-          style={{ fontSize: 'var(--type-body-sm-size)', color: 'var(--text-muted)' }}
-        >
-          Design System
-        </a>
       </nav>
 
       {/* Hero */}
