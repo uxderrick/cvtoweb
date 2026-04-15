@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useCallback, useId } from 'react';
+import React, { useRef, useState, useCallback, useId, useEffect } from 'react';
 
 /* ============================================================
    FILE UPLOAD — CVtoWeb Design System
@@ -24,9 +24,10 @@ export interface FileUploadProps {
   multiple?:       boolean;
   maxSize?:        number;
   disabled?:       boolean;
-  progress?:       number | null;
-  onFilesChange?:  (files: File[]) => void;
-  files?:          File[];
+  progress?:          number | null;
+  uploadingMessages?: string[];
+  onFilesChange?:     (files: File[]) => void;
+  files?:             File[];
 }
 
 /* ── Glass tokens ────────────────────────────────────────── */
@@ -299,17 +300,20 @@ function FileRow({
 }
 
 /* ── Main Component ──────────────────────────────────────── */
+const DEFAULT_UPLOADING_MESSAGES = ['Processing your CV'];
+
 export function FileUpload({
   label,
   helperText,
-  variant   = 'default',
-  size      = 'md',
+  variant           = 'default',
+  size              = 'md',
   accept,
   acceptHint,
-  multiple  = false,
+  multiple          = false,
   maxSize,
-  disabled  = false,
-  progress  = null,
+  disabled          = false,
+  progress          = null,
+  uploadingMessages = DEFAULT_UPLOADING_MESSAGES,
   onFilesChange,
   files: controlledFiles,
 }: FileUploadProps) {
@@ -319,12 +323,23 @@ export function FileUpload({
   const [internalFiles, setInternalFiles] = useState<File[]>([]);
   const [sizeError,     setSizeError]     = useState<string | null>(null);
   const [btnHovered,    setBtnHovered]    = useState(false);
+  const [msgIndex,      setMsgIndex]      = useState(0);
+
+  const isUploading = typeof progress === 'number';
+
+  useEffect(() => {
+    if (!isUploading) { setMsgIndex(0); return; }
+    if (uploadingMessages.length <= 1) return;
+    const id = setInterval(() => {
+      setMsgIndex(i => (i + 1) % uploadingMessages.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [isUploading, uploadingMessages.length]);
 
   const files = controlledFiles ?? internalFiles;
   const sz    = sizeMap[size];
   const vt    = variantMap[variant];
 
-  const isUploading = typeof progress === 'number';
   const isComplete  = !isUploading && files.length > 0 && variant === 'success';
   const isError     = variant === 'error';
 
@@ -491,7 +506,7 @@ export function FileUpload({
             {dragging
               ? 'Drop to upload'
               : isUploading
-                ? <span>Parsing your CV<AnimatedDots /></span>
+                ? <span>{uploadingMessages[msgIndex]}<AnimatedDots /></span>
                 : isComplete
                   ? 'Upload complete'
                   : hasFiles

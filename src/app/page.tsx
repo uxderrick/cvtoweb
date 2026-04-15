@@ -327,6 +327,12 @@ export default function Home() {
               acceptHint="PDF or Word · Max 5MB"
               maxSize={5 * 1024 * 1024}
               progress={isLoading ? 0 : null}
+              uploadingMessages={[
+                'Reading your CV',
+                'Processing your experience',
+                'Pulling out your skills',
+                'Building your site',
+              ]}
               onFilesChange={(files) => {
                 if (files[0]) handleFile(files[0]);
               }}
