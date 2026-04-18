@@ -1,7 +1,11 @@
 import { Resend } from 'resend';
 import { getPortfolioUrl, getLiveEditUrl } from './urls';
 
-export function emailTemplate(portfolioUrl: string, editUrl: string): string {
+const BASE_URL = process.env.NEXT_PUBLIC_APP_DOMAIN
+  ? `https://${process.env.NEXT_PUBLIC_APP_DOMAIN}`
+  : 'https://cvtoweb.com';
+
+export function emailTemplate(portfolioUrl: string, editUrl: string, baseUrl = BASE_URL): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,13 +14,12 @@ export function emailTemplate(portfolioUrl: string, editUrl: string): string {
   <title>Your Portfolio is Live!</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
-    /* Mascot responsive sizing */
-    .mascot { width: 140px; height: 140px; }
+    .mascot { width: 140px; height: auto; }
     @media only screen and (max-width: 480px) {
-      .mascot { width: 90px !important; height: 90px !important; }
+      .mascot { width: 90px !important; }
     }
     @media only screen and (min-width: 481px) and (max-width: 768px) {
-      .mascot { width: 115px !important; height: 115px !important; }
+      .mascot { width: 115px !important; }
     }
   </style>
 </head>
@@ -28,48 +31,16 @@ export function emailTemplate(portfolioUrl: string, editUrl: string): string {
 
     <!-- Logo -->
     <div style="margin-bottom:32px;">
-      <svg width="28" height="17" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:8px;">
-        <circle cx="1.63636" cy="1.63636" r="1.63636" fill="#6D73D2"/>
-        <rect x="4.09094" width="12.9091" height="3.27273" rx="1.63636" fill="#6D73D2"/>
-        <rect y="5.72729" width="12.9091" height="3.27273" rx="1.63636" fill="#6D73D2"/>
-        <circle cx="15.3637" cy="7.36366" r="1.63636" fill="#6D73D2"/>
-      </svg>
+      <img src="${BASE_URL}/email-logo-mark.svg" width="28" height="17" alt="" style="vertical-align:middle;margin-right:8px;border:0;" />
       <span style="font-size:26px;font-weight:600;color:#1e1e1e;vertical-align:middle;letter-spacing:-0.01em;">cv<span style="color:#6d73d2;">to</span>web</span>
     </div>
 
     <!-- Centre content -->
     <div style="text-align:center;">
 
-      <!-- Success mascot (static SVG — no CSS vars, no animation) -->
+      <!-- Success mascot -->
       <div style="margin-bottom:28px;">
-        <svg class="mascot" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="mg" cx="45%" cy="35%" r="65%">
-              <stop offset="0%" stop-color="#A7F3D0"/>
-              <stop offset="100%" stop-color="#059669"/>
-            </radialGradient>
-          </defs>
-          <!-- Orb -->
-          <ellipse cx="50" cy="54" rx="34" ry="32" fill="url(#mg)"/>
-          <!-- Shine -->
-          <ellipse cx="40" cy="40" rx="14" ry="10" fill="white" opacity="0.18" transform="rotate(-15 40 40)"/>
-          <!-- Antenna -->
-          <circle cx="50" cy="17" r="2.4" fill="white" opacity="0.75"/>
-          <path d="M50 22 Q50 18 52 14" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
-          <!-- Face: arch eyes -->
-          <path d="M35 52 Q40 47 45 52" stroke="#064E3B" stroke-width="2.8" stroke-linecap="round" fill="none"/>
-          <path d="M55 52 Q60 47 65 52" stroke="#064E3B" stroke-width="2.8" stroke-linecap="round" fill="none"/>
-          <!-- Smile -->
-          <path d="M40 59 Q50 69 60 59" stroke="#064E3B" stroke-width="2.3" stroke-linecap="round" fill="none"/>
-          <!-- Blush -->
-          <ellipse cx="50" cy="63" rx="5.2" ry="2.6" fill="#F472B6" opacity="0.7"/>
-          <circle cx="33" cy="57" r="4.2" fill="#A7F3D0" opacity="0.45"/>
-          <circle cx="67" cy="57" r="4.2" fill="#A7F3D0" opacity="0.45"/>
-          <!-- Check badge (top-right of orb) -->
-          <circle cx="78" cy="23" r="11" fill="white"/>
-          <circle cx="78" cy="23" r="9" fill="white" stroke="#059669" stroke-width="2"/>
-          <path d="M73 23 L77 27 L84 17" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <img src="${BASE_URL}/email-mascot.svg" class="mascot" alt="Success" style="border:0;display:inline-block;" />
       </div>
 
       <!-- Title -->
@@ -92,7 +63,7 @@ export function emailTemplate(portfolioUrl: string, editUrl: string): string {
   </div>
 
   <!-- ── Footer ── -->
-  <div style="background:#f5f5f5;padding:28px 48px 40px;min-height:165px;position:relative;">
+  <div style="background:#f5f5f5;padding:28px 48px 40px;">
     <p style="font-size:16px;margin:0 0 8px;line-height:1.5;">
       <strong style="font-weight:700;color:#111827;">Need to make changes?</strong>
     </p>
