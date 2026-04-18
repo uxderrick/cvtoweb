@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FileUpload } from '@/components/ui/FileUpload';
+import { Logo } from '@/components/Logo';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,12 +62,7 @@ export default function Home() {
         className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5"
         style={{ borderBottom: '1px solid oklch(1 0 0 / 0.08)' }}
       >
-        <span
-          className="font-semibold tracking-tight"
-          style={{ fontSize: 'var(--type-h6-size)', color: 'var(--text-primary)' }}
-        >
-          CV<span style={{ color: 'var(--text-brand)' }}>to</span>Web
-        </span>
+        <Logo size="md" />
       </nav>
 
       {/* Hero */}

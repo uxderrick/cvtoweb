@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Mascot } from '@/components/ui/Mascot';
 import { getLiveEditUrl, getPortfolioUrl } from '@/lib/urls';
+import { Logo } from '@/components/Logo';
 
 /* ── Icons ───────────────────────────────────────────────── */
 function CheckIcon() {
@@ -63,6 +64,43 @@ function LinkedInIcon() {
     <svg width={16} height={16} fill="currentColor" viewBox="0 0 24 24">
       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
     </svg>
+  );
+}
+
+function NativeShareIcon() {
+  return (
+    <svg width={15} height={15} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+    </svg>
+  );
+}
+
+/* ── Native share button ─────────────────────────────────── */
+function NativeShareButton({ url, name }: { url: string; name: string }) {
+  const [canShare, setCanShare] = useState(false);
+
+  useEffect(() => {
+    setCanShare(typeof navigator.share === 'function');
+  }, []);
+
+  if (!canShare) return null;
+
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        title: `${name}'s Portfolio`,
+        text: `Check out ${name}'s portfolio, built with CVtoWeb!`,
+        url,
+      });
+    } catch {
+      // User cancelled or share failed — no action needed
+    }
+  };
+
+  return (
+    <Button variant="secondary" size="md" iconLeft={<NativeShareIcon />} onClick={handleShare}>
+      Share
+    </Button>
   );
 }
 
@@ -201,12 +239,8 @@ function PublishedContent() {
         className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5"
         style={{ borderBottom: '1px solid oklch(1 0 0 / 0.08)' }}
       >
-        <Link
-          href="/"
-          className="font-semibold tracking-tight"
-          style={{ fontSize: 'var(--type-h6-size)', color: 'var(--text-primary)', textDecoration: 'none' }}
-        >
-          CV<span style={{ color: 'var(--text-brand)' }}>to</span>Web
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <Logo size="md" />
         </Link>
       </nav>
 
@@ -274,6 +308,7 @@ function PublishedContent() {
                 style={{ flex: 1 }}
               />
               <CopyButton text={portfolioUrl} />
+              <NativeShareButton url={portfolioUrl} name={username ?? 'My'} />
             </div>
           </GlassCard>
 
