@@ -404,7 +404,7 @@ export function Mascot({
             width: config.orb * 0.26,
             height: config.orb * 0.26,
             borderRadius: '999px',
-            backgroundColor: 'var(--bg-surface)',
+            backgroundColor: 'transparent',
             border: `2px solid ${palette.badge}`,
             display: 'flex',
             alignItems: 'center',

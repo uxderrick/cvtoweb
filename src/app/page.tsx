@@ -66,7 +66,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <div className="relative flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-20">
+      <div className="relative flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-20">
 
         {/* Info-400 radial glow — centred on card 2, bleeding through text + upload */}
         <div
@@ -351,6 +351,18 @@ export default function Home() {
           )}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer
+        className="flex items-center justify-center gap-6 px-4 py-5"
+        style={{ borderTop: '1px solid oklch(1 0 0 / 0.08)', fontSize: 'var(--type-body-sm-size)', color: 'white' }}
+      >
+        <span style={{ color: 'var(--text-muted)' }}>© 2026 CVtoWeb</span>
+        <a href="/privacy" style={{ color: 'white', textDecoration: 'none' }}>Privacy Policy</a>
+        <a href="/terms" style={{ color: 'white', textDecoration: 'none' }}>Terms</a>
+        <a href="/faq" style={{ color: 'white', textDecoration: 'none' }}>FAQ</a>
+        <a href="/feedback" style={{ color: 'white', textDecoration: 'none' }}>Feedback</a>
+      </footer>
 
     </main>
   );
